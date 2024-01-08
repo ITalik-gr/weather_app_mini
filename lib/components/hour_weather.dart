@@ -4,18 +4,19 @@ class HourWeather extends StatelessWidget {
   final String time;
   final int temp;
   final String imagePath;
+  final bool active;
 
   const HourWeather({
     Key? key,
     required this.time,
     required this.temp,
     required this.imagePath,
+    this.active = false,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: const Color(0x1F001026).withOpacity(0.3),
+    return Container(
       child: Padding(
       padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 12),
         child: Column(
@@ -33,7 +34,7 @@ class HourWeather extends StatelessWidget {
             Image.asset(imagePath),
         
             const SizedBox(height: 25),
-
+            
             Text(time,
                   style: const TextStyle(
                     color: Colors.white, 

@@ -5,10 +5,78 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:weather_app/components/hour_weather.dart';
 
 class Weather extends StatelessWidget {
-  const Weather({super.key});
+
+  final List hourWeatherList = [
+    [29, 'lib/assets/image/cloud-1.png', "15.00", false],
+    [26, 'lib/assets/image/cloud-1.png', "16.00", false],
+    [24, 'lib/assets/image/cloud-2.png', "17.00", true],
+    [23, 'lib/assets/image/cloud-3.png', "18.00", false]
+  ];
+
+  _buildActiveCard(bool active) {
+  if (active) {
+    return BoxDecoration(
+      color: const Color.fromRGBO(37, 102, 163, 0.20),
+      borderRadius: BorderRadius.circular(23),
+      border: Border.all(
+        color: const Color(0xFF5096FF),
+        width: 1,
+      ),
+    );
+     
+  } else {
+      return BoxDecoration(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(0),
+    );
+  }
+  }
+  Widget _buildHourWeather() {
+    return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          for (int i = 0; i < 4; i++)
+            Container(
+              decoration: _buildActiveCard(hourWeatherList[i][3]),
+              child: Padding(
+              padding: const EdgeInsets.only(left: 10, right: 10, bottom: 20, top: 12),
+              child: Column(
+              children: [
+                Text("${hourWeatherList[i][0]}°C",
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w400,
+                    ),
+                ),
+
+                const SizedBox(height: 30),
+
+                Image.asset(hourWeatherList[i][1], height: 38,),
+
+                const SizedBox(height: 25),
+
+                Text(hourWeatherList[i][2],
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w400,
+                    ),
+                ),
+              ],
+            ),
+          ),
+        ),
+    ],
+ );
+}
+
+  Weather({Key? key}) : super(key: key);
 
   final int maxTemperature = 31;
   final int minTemperature = 25;
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -174,18 +242,7 @@ class Weather extends StatelessWidget {
                     SizedBox(height: 13,),
 
                     //? Hour cards
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: List.generate(4, (index) {
-                        // Генерація чотирьох карток
-                        return HourWeather(
-                          key: Key(index.toString()), // Ключ для кожної картки
-                          time: '15.00', // Приклад значення часу
-                          temp: 25, // Приклад значення температури
-                          imagePath: 'lib/assets/image/cloud-1.png', // Приклад шляху до зображення
-                        );
-                      }),
-                    ),
+                    _buildHourWeather()
                   ],
                 ),
                 
